@@ -10,10 +10,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum EUserType {
+  ADMIN
+  USER
+}
+
 model User {
   id        String   @id @default(cuid())
   email     String   @unique
   name      String?
+  type      EUserType @default(USER)
   // Avatar
   avatar    String?
   deleted   Boolean  @default(false)

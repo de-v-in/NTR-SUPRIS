@@ -28,16 +28,16 @@ export class Prisma {
               }))
             : [{ emit: 'event', level: 'error' }],
       });
-      prismaGlobal.prisma.$on('query' as TAny, (e: TAny) => {
+      prismaGlobal.prisma.$on('query' as never, (e: TAny) => {
         this.logger.i('query', 'Start query data', { query: e.query, duration: e.duration });
       });
-      prismaGlobal.prisma.$on('warn' as TAny, (e: TAny) => {
+      prismaGlobal.prisma.$on('warn' as never, (e: TAny) => {
         this.logger.i('warn', 'Warning while querying data', {
           query: e.query,
           duration: e.duration,
         });
       });
-      prismaGlobal.prisma.$on('error' as TAny, (e: TAny) => {
+      prismaGlobal.prisma.$on('error' as never, (e: TAny) => {
         this.logger.i('error', 'Query data failed', { query: e.query, duration: e.duration });
       });
     }

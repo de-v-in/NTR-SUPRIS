@@ -30,7 +30,7 @@ export class UserManager {
     if (supabaseUser) {
       const userType = await this.prisma.User.findUnique({
         where: { email: supabaseUser.email },
-      }).then((user) => user?.type ?? EUserType.L0);
+      }).then((user) => user?.type ?? EUserType.USER);
       const user = { ...supabaseUser, type: userType };
       return user;
     }
