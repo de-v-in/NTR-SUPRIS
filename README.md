@@ -1,6 +1,6 @@
 # DEVIN NTR-SUPRIS Template
 
-> NextJS - tRPC - SUPABASE - PRISMA along with Vite and TailwindCSS base
+> NextJS - tRPC - SUPABASE - PRISMA along with BunJS and TailwindCSS base
 
 This is NextJS with React 18 template, which support auto format with eslint and integrated `husky` for code checking before commit. This will help in smooth out project building.
 
@@ -59,4 +59,4 @@ This is NextJS with React 18 template, which support auto format with eslint and
 - `Husky` Git helper
 - `SCSS modules` Style system
 - `Eslint and Prettier` Rule of code
-- `Vite` for build
+- `BunJS` for build

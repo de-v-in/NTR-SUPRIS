@@ -15,7 +15,7 @@ export const metadata = {
 async function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className="relative w-full h-screen overflow-hidden">
+      <body className="relative w-full h-screen overflow-hidden bg-white">
         <SupabaseProvider>
           <TRPCWrapper>
             <>

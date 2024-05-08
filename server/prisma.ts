@@ -6,7 +6,7 @@ import { PrismaClient } from '@prisma/client';
 import { Logger } from '@saintno/needed-tools';
 import { createPrismaRedisCache } from 'prisma-redis-middleware';
 
-import { SystemENV } from '@/env';
+import { SystemENV } from '@/env.system';
 
 const prismaGlobal = global as typeof global & {
   prisma?: PrismaClient;

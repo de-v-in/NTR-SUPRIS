@@ -1,7 +1,7 @@
 import { SupabaseClient } from '@supabase/supabase-js';
 import cookie from 'cookie';
 
-import { SystemENV } from '@/env';
+import { SystemENV } from '@/env.system';
 
 const supabaseGlobal = global as typeof global & {
   supabase?: SupabaseInstance;

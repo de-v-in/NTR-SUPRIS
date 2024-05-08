@@ -7,7 +7,7 @@ import { NextServer } from 'next/dist/server/next';
 import { parse } from 'url';
 import ws from 'ws';
 
-import { SystemENV } from '@/env';
+import { SystemENV } from '@/env.system';
 
 import { createContext } from './server/context';
 import appRouter from './server/router';
@@ -40,10 +40,10 @@ class NextJSApplication {
         const parsedUrl = parse(req.url!, true);
         await handle(req, res, parsedUrl);
       });
-      this.server.listen(Number(SystemENV.APP_PORT));
+      this.server.listen(Number(SystemENV.NEXT_PUBLIC_APP_PORT));
       this.logger.i(
         'initNextServer',
-        `Server listening at ${SystemENV.APP_URL}:${SystemENV.APP_PORT} as ${SystemENV.NODE_ENV}`
+        `Server listening at ${SystemENV.NEXT_PUBLIC_APP_URL}:${SystemENV.NEXT_PUBLIC_APP_PORT} as ${SystemENV.NODE_ENV}`
       );
       this.httpTerminator = createHttpTerminator({ server: this.server });
     });
@@ -51,7 +51,7 @@ class NextJSApplication {
 
   private initWebSocketServer() {
     this.wss = new ws.Server({
-      port: Number(SystemENV.WS_PORT),
+      port: Number(SystemENV.NEXT_PUBLIC_WS_PORT),
     });
     applyWSSHandler({
       wss: this.wss,
@@ -66,7 +66,9 @@ class NextJSApplication {
     });
     this.logger.i(
       'initWebSocketServer',
-      `WebSocket Server listening at ws://${SystemENV.APP_URL.split('//')[1]}:3001`
+      `WebSocket Server listening at ws://${SystemENV.NEXT_PUBLIC_APP_URL.split('//')[1]}:${
+        SystemENV.NEXT_PUBLIC_WS_PORT
+      }`
     );
   }
 

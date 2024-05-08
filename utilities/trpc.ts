@@ -5,14 +5,14 @@ import { createTRPCNext } from '@trpc/next';
 import { NextPageContext } from 'next';
 import SuperJSON from 'superjson';
 
-import { SystemENV } from '@/env';
+import { WebENV } from '@/env.web';
 import type { AppRouter } from '@/server/router';
 
 const isServer = typeof window === 'undefined';
 
 function getEndingLink(ctx: NextPageContext | undefined) {
   return httpBatchLink({
-    url: `${SystemENV.APP_URL}:3000/api/trpc`,
+    url: `${WebENV.NEXT_PUBLIC_APP_URL}:${WebENV.NEXT_PUBLIC_APP_PORT}/api/trpc`,
     headers() {
       if (!ctx?.req?.headers) {
         return {};
@@ -43,7 +43,9 @@ export const trpc = createTRPCNext<AppRouter>({
               condition: (op) => op.type === 'subscription',
               true: wsLink<AppRouter>({
                 client: createWSClient({
-                  url: `ws://${SystemENV.APP_URL.split('//')[1]}:3001`,
+                  url: `ws://${WebENV.NEXT_PUBLIC_APP_URL.split('//')[1]}:${
+                    WebENV.NEXT_PUBLIC_WS_PORT
+                  }`,
                 }),
               }),
               false: getEndingLink(ctx),
