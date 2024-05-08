@@ -1,5 +1,5 @@
 import { EUserType } from '@prisma/client';
-import { createClient, RedisClientType } from 'redis';
+import { createClient, type RedisClientType } from 'redis';
 
 import { Prisma } from '../prisma';
 import { SupabaseInstance } from '../services/SupabaseClient';

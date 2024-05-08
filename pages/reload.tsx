@@ -11,8 +11,9 @@ const CheckIn = () => {
   const supabase = useSupabase();
   const user = trpc.user.login.useMutation();
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: we want to run this effect only once
   useEffect(() => {
-    let data = supabase.supabase.auth.onAuthStateChange((event, session) => {
+    const data = supabase.supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_IN' || !!session) {
         user.mutateAsync().then(() => {
           router.replace('/');
@@ -20,7 +21,6 @@ const CheckIn = () => {
         data.data.subscription.unsubscribe();
       }
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router]);
 
   return (

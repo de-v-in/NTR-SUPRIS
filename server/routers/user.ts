@@ -34,7 +34,7 @@ export const UserRouter = router({
         },
       });
       if (!user) {
-        let args: TAny[] = [];
+        const args: TAny[] = [];
         args.push(
           prisma.User.create({
             data: {

@@ -1,6 +1,6 @@
 'use client';
 
-import { createClientComponentClient,SupabaseClient } from '@supabase/auth-helpers-nextjs';
+import { createClientComponentClient, type SupabaseClient } from '@supabase/auth-helpers-nextjs';
 import { isEqual } from 'lodash';
 import { createContext, useContext, useEffect, useRef, useState } from 'react';
 
@@ -12,11 +12,16 @@ type SupabaseContext = {
 
 const Context = createContext<SupabaseContext | undefined>(undefined);
 
-export default function SupabaseProvider({ children }: { children: React.ReactNode }) {
+export default function SupabaseProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const [supabase] = useState(() => createClientComponentClient());
   const { session, user, setSession, setUser } = useAuthStore();
   const prev = useRef({ session, user });
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: We want to run this effect only once
   useEffect(() => {
     const {
       data: { subscription },
@@ -39,14 +44,9 @@ export default function SupabaseProvider({ children }: { children: React.ReactNo
     return () => {
       subscription.unsubscribe();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return (
-    <Context.Provider value={{ supabase }}>
-      <>{children}</>
-    </Context.Provider>
-  );
+  return <Context.Provider value={{ supabase }}>{children}</Context.Provider>;
 }
 
 export const useSupabase = () => {

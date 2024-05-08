@@ -2,7 +2,7 @@
 
 import { createWSClient, httpBatchLink, splitLink, wsLink } from '@trpc/client';
 import { createTRPCNext } from '@trpc/next';
-import { NextPageContext } from 'next';
+import type { NextPageContext } from 'next';
 import SuperJSON from 'superjson';
 
 import { WebENV } from '@/env.web';
@@ -55,7 +55,9 @@ export const trpc = createTRPCNext<AppRouter>({
        * @link https://tanstack.com/query/v4/docs/react/reference/QueryClient
        */
       queryClientConfig: {
-        defaultOptions: { queries: { staleTime: 60, refetchOnWindowFocus: false } },
+        defaultOptions: {
+          queries: { staleTime: 60, refetchOnWindowFocus: false },
+        },
       },
     };
   },

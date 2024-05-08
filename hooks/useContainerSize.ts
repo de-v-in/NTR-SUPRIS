@@ -1,7 +1,7 @@
 'use client';
 
 import { debounce } from 'lodash';
-import { RefObject, useEffect, useRef, useState } from 'react';
+import { type RefObject, useEffect, useRef, useState } from 'react';
 
 /**
  * Hook to get the size of an element
@@ -12,6 +12,7 @@ export const useContainerSize = (ref: RefObject<HTMLElement>) => {
   const [size, setSize] = useState({ width: 0, height: 0 });
   const setSizeDebounced = useRef(debounce(setSize, 100));
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: we dont need to track debounce fn
   useEffect(() => {
     const handleResize = () => {
       if (ref.current) {

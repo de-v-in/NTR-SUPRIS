@@ -1,7 +1,8 @@
 import './globals.scss';
 
-import React from 'react';
+import type React from 'react';
 
+import { LayoutWrapper } from '@/components/LayoutWrapper';
 import { PageWrapper } from '@/components/PageWrapper';
 import TRPCWrapper from '@/components/TRPCWrapper';
 
@@ -18,13 +19,15 @@ async function RootLayout({ children }: { children: React.ReactNode }) {
       <body className="relative w-full h-screen overflow-hidden bg-white">
         <SupabaseProvider>
           <TRPCWrapper>
-            <>
-              <div className="absolute top-0 left-0 w-full h-full z-10">
-                <div className="flex w-full h-full flex-col overflow-hidden">
-                  <PageWrapper>{children}</PageWrapper>
+            <LayoutWrapper>
+              <>
+                <div className="absolute top-0 left-0 w-full h-full z-10">
+                  <div className="flex w-full h-full flex-col overflow-hidden">
+                    <PageWrapper>{children}</PageWrapper>
+                  </div>
                 </div>
-              </div>
-            </>
+              </>
+            </LayoutWrapper>
           </TRPCWrapper>
         </SupabaseProvider>
       </body>

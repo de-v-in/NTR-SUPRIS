@@ -29,7 +29,7 @@ export const fetchTextToBuffer = async (textUrl: string) => {
  * Exclude keys from object
  */
 export const exclude = <User, Key extends keyof User>(user: User, keys: Key[]): Omit<User, Key> => {
-  for (let key of keys) {
+  for (const key of keys) {
     delete user[key];
   }
   return user;
@@ -38,7 +38,8 @@ export const exclude = <User, Key extends keyof User>(user: User, keys: Key[]): 
 export const requestNotifyPermission = () => {
   if (!('Notification' in window)) {
     return;
-  } else if (Notification.permission !== 'denied') {
+  }
+  if (Notification.permission !== 'denied') {
     // We need to ask the user for permission
     Notification.requestPermission();
   }
@@ -57,8 +58,8 @@ export const notify = ({
 }) => {
   const fire = () => {
     new Notification(title, {
+      badge: image,
       body,
-      image,
       icon,
     });
   };

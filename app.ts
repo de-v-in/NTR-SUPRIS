@@ -1,10 +1,10 @@
 import { Logger } from '@saintno/needed-tools';
 import { applyWSSHandler } from '@trpc/server/adapters/ws';
-import http from 'http';
-import { createHttpTerminator, HttpTerminator } from 'http-terminator';
+import http from 'node:http';
+import { createHttpTerminator, type HttpTerminator } from 'http-terminator';
 import next from 'next';
-import { NextServer } from 'next/dist/server/next';
-import { parse } from 'url';
+import type { NextServer } from 'next/dist/server/next';
+import { parse } from 'node:url';
 import ws from 'ws';
 
 import { SystemENV } from '@/env.system';
@@ -37,8 +37,10 @@ class NextJSApplication {
     const handle = this.nextApp.getRequestHandler();
     this.nextApp.prepare().then(() => {
       this.server = http.createServer(async (req, res) => {
-        const parsedUrl = parse(req.url!, true);
-        await handle(req, res, parsedUrl);
+        if (req.url) {
+          const parsedUrl = parse(req.url, true);
+          await handle(req, res, parsedUrl);
+        }
       });
       this.server.listen(Number(SystemENV.NEXT_PUBLIC_APP_PORT));
       this.logger.i(
@@ -59,9 +61,13 @@ class NextJSApplication {
       createContext: createContext,
     });
     this.wss.on('connection', (ws) => {
-      this.logger.i('Websocket', `New connection`, { size: this.wss?.clients.size });
+      this.logger.i('Websocket', 'New connection', {
+        size: this.wss?.clients.size,
+      });
       ws.once('close', () => {
-        this.logger.i('Websocket', `Connection closed`, { size: this.wss?.clients.size });
+        this.logger.i('Websocket', 'Connection closed', {
+          size: this.wss?.clients.size,
+        });
       });
     });
     this.logger.i(
@@ -81,12 +87,12 @@ class NextJSApplication {
    */
   private initAddon() {
     const addon = SystemENV.FEATURE_FLAGS.split(',');
-    addon.forEach((name) => {
+    for (const name of addon) {
       switch (name) {
         case 'heapdump':
           return;
       }
-    });
+    }
   }
 }
 
